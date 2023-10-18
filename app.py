@@ -12,9 +12,13 @@ def home_page():
 
 @app.route('/board')
 def board():
+    width = 5
+    height = 5
     full_board = boggle_game.make_board()
+    session["full_board"] = full_board
+    print(full_board)
 
-    return render_template('board.html', full_board=full_board)
+    return render_template('board.html', full_board=full_board, width=width, height=height)
 
 
 

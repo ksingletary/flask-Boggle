@@ -2,10 +2,61 @@
 {% block title %}Board{% endblock %}
 {% block content %} 
 
+<table>
+    <tr>
+    {% for num in range(width) %}
+        <th><div>{{full_board[num][num]}}</div></th>
+    {% endfor %}
+    </tr>
+    {% for num in range(height) %}
+        <tr>
+        {% for num1 in range(width) %}
+            <th><div>{{full_board[num][num1]}}</div></th>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
 
-<div>
-    {{full_board}}
-</div>
 
 
 {% endblock %}
+
+<!-- {% for num in range(width) %}
+        <td>hi</td>
+    {% endfor %}
+    {% for num in range(height) %}
+        <td>hello</td>
+        {% for num1 in range(width) %}
+            <td><div>{{full_board[num[num1]]}}</div></td>
+        {% endfor %}
+    {% endfor %}
+
+    for (let x = 0; x < this.width; x++) {
+        const headCell = document.createElement('td');
+        headCell.setAttribute('id', x);
+        top.append(headCell);
+      }
+  
+      board.append(top);
+  
+      for (let y = 0; y < this.height; y++) {
+        const row = document.createElement('tr');
+  
+        for (let x = 0; x < this.width; x++) {
+          const cell = document.createElement('td');
+          cell.setAttribute('id', `${y}-${x}`);
+          row.append(cell);
+        }
+  
+        board.append(row);
+      }
+    } -->
+    <!-- <table>
+        <tr>
+        {% for arr in full_board %}
+            {% for letter in arr %}
+                    <td><div>{{letter}}</div></td>
+            {% endfor %}
+        {% endfor %}
+        </tr>
+    </table> -->
