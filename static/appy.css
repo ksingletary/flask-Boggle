@@ -2,7 +2,6 @@ table {
     margin: auto;
     width: 550px;
     height: 550px;
-    border: solid 5px #1a2a19;
     border-radius: 10px 10px 10px 10px ; 
     margin-top: 7%;
     margin-right: 55%;
@@ -14,6 +13,7 @@ div {
     color: rgb(114, 25, 22);
 }
 
+
 th {
     margin: auto;
     width: 50px;
@@ -21,10 +21,35 @@ th {
     border: solid 4px rgb(123, 27, 24);
     border-radius: 10px 10px 10px 10px ; 
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: rgb(243, 209, 205);
+    background-color: rgb(243, 231, 205);
+}
+
+th:hover {
+    background-color: #efaea3;
+    cursor: pointer;
 }
 
 body{
     background: linear-gradient(to left, #f1f2f6, #c8a874);
+}
+
+form{
+    margin-left: 60%;
+}
+
+button {
+    width: 30%;
+    padding: 2%;
+    display: inline-block;
+    border-radius: 5px 5px 5px 5px ;
+    border: #c8a874;
+}
+
+input {
+    width: 30%;
+    padding: 2%;
+    border-radius: 5px 5px 5px 5px ; 
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border: #c8a874;
 }
 

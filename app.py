@@ -1,6 +1,7 @@
 from boggle import Boggle
 from flask import Flask, request, render_template, redirect, flash, jsonify, session
 
+
 app = Flask(__name__)
 app.secret_key = "giggitygoo"
 
