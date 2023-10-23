@@ -1,62 +1,55 @@
+from flask import Flask, render_template, request, session, redirect, jsonify
 from boggle import Boggle
-from flask import Flask, request, render_template, redirect, flash, jsonify, session
-
 
 app = Flask(__name__)
-app.secret_key = "giggitygoo"
-boggle_game = Boggle()
+app.config['SECRET_KEY'] = 'secret!!'
 
-word_list = []
+
+boggle_game_instance = Boggle() # create instance of Boggle
 
 @app.route('/')
-def home_page():
-    global word_list
-    word_list = []
-    if not session.get('high_score'):
-        session['high_score'] = 0
-    if not session.get('games'):
-        session['games'] = 0
-    session['board'] = boggle_game.make_board()
-    return render_template('home.html', board=session['board'], high_score=session['high_score'], games=session['games'])
+def display_boggle_board():
+    """Display Boggle board and store it in session, and renders it.
 
-@app.route('/board')
-def board():
-    width = 5
-    height = 5
-    full_board = boggle_game.make_board()
-    session["full_board"] = full_board
-
-    return render_template('board.html', full_board=full_board, width=width, height=height)
-
-@app.route('/guess')
-def guess():
-    """Check a guess against the current board."""
-    word_guess = request.args.get("word_guess")
-    if word_guess not in word_list:
-        board = session['board']
-        result = boggle_game.check_valid_word(board, word_guess)
-
-        if result == "ok":
-            word_list.append(word_guess)
-            print(word_list)
-        return result
-    
-    else:
-        return "not-on-board"    
-
-@app.route('/score')
-def score():
-    """Takes the final score for the current game, compares it to the high
-    score, and displays the new high score. Iterates the current number of games
-    in the session.
+    Returns:
+        str: HTML content of the Boggle board
     """
-    final_score = int(request.args.get("final_score"))
-    if final_score > session.get('high_score'):
-        session['high_score'] = final_score
-    session['games'] += 1
-    info = {"games": session.get('games'), "high_score": session.get('high_score')}
-    info = jsonify(info)
-    return info
+    generated_board = boggle_game_instance.make_board()
+    session['current_boggle_board'] = generated_board
+    session.setdefault('highest_score', 0)
+    session.setdefault('times_played', 0)
+    return render_template('board.html', board=generated_board)
 
+@app.route('/user_guess', methods=['POST']) #guess or choice api
+def submit_user_guess():
+    """Handles submission of user's word guess.
+    Validates if submitted word is on board and words.txt.
 
+    Returns:
+        JSON: a dictionary with key 'result' and value of result of validation
+    """
+    user_guess = request.json['user_guess'] #get value associated with key 'user_guess' from JSON data
+    current_board = session['current_boggle_board']
+    
+    result = boggle_game_instance.check_valid_word(current_board, user_guess.lower())
+    return jsonify({'result': result})
 
+@app.route('/final_score', methods=['POST']) #POST already tells you want it does
+def submit_final_score():
+    """Handle the submission of the final score when the game ends.
+    
+    Updates session data for the highest score and times played.
+    
+    Returns:
+        JSON: a dictionary with keys 'highest_score' and 'times_played' and their values.
+    """
+    final_score = request.json['final_score']
+    session['times_played'] += 1
+
+    if final_score > session['highest_score']:
+        session['highest_score'] = final_score
+
+    return jsonify({
+        'highest_score': session['highest_score'],
+        'times_played': session['times_played']
+    })
