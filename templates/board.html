@@ -2,6 +2,18 @@
 {% block title %}Board{% endblock %}
 {% block content %} 
 
+<div>
+    <span class="timer"><strong>60</strong></span><span> seconds left!</span>
+</div>
+
+<br>
+
+<div>
+    <span><strong>Score: </strong></span><span class="score">0</span>
+</div>
+
+<br>
+
 <table>
     <tr>
     {% for num in range(width) %}
@@ -16,9 +28,45 @@
         </tr>
     {% endfor %}
 </table>
-<form>
-    <input type="text" placeholder="Guess a Word!" name="guess">
-    <button>Submit</button>
+
+<br>
+
+<form action="" id="word-guess-form">
+    <label for="word-guess">Guess a Word:</label>
+    <input type="text" name="word-guess" id="word-guess" placeholder="Word">
+    <button id="word-guess-button">Guess!</button>
 </form>
+
+
+<div class="correct">
+    <h3>Correct Guesses</h3>
+    <ul class="correct-list">
+
+    </ul>
+</div>
+<div class="not-on-board">
+    <h3>Not On The Board</h3>
+    <ul class="not-on-board-list">
+
+    </ul>
+</div>
+<div class="not-word">
+    <h3>Not A Word</h3>
+    <ul class="not-word-list">
+
+    </ul>
+</div>
+
+<br>
+
+<div>
+    <span><strong>High Score: </strong></span><span class="high-score">{{high_score}}</span>
+</div>
+
+<br>
+
+<div>
+    <span><strong>Number of Games: </strong></span><span class="games">{{games}}</span>
+</div>
 
 {% endblock %}
